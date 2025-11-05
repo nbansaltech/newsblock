@@ -7,13 +7,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#00FFFF', // Neon cyan
-        secondary: '#FF00FF', // Neon magenta
-        background: '#000000', // Black
-        surface: '#1A1A1A', // Dark gray
+        primary: '#00D9FF', // Bright cyan
+        secondary: '#FF0080', // Hot pink
+        accent: '#7B61FF', // Purple accent
+        background: '#0A0E27', // Deep blue-black
+        surface: '#1A1F3A', // Dark blue-gray
+        'surface-light': '#252B47', // Lighter surface
       },
       fontFamily: {
         sciFi: ['"Orbitron"', 'sans-serif'],
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
   },

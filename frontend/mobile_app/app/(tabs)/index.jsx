@@ -92,7 +92,7 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={HomeScreen}
-            options={{ title: 'TrustLens' }}
+            options={{ title: 'NewsBlock' }}
             initialParams={{ preferences }}
           />
           <Stack.Screen
@@ -113,7 +113,7 @@ export default function App() {
           <Stack.Screen
             name="NewsApp"
             component={NewsApp}
-            options={{ title: 'TrustLens - News App' }}
+            options={{ title: 'NewsBlock - News App' }}
           />
         </Stack.Navigator>
       </NavigationContainer>

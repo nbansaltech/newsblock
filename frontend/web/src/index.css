@@ -5,4 +5,29 @@
 
 body {
   @apply bg-background text-white font-sciFi;
+  margin: 0;
+  padding: 0;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0E27;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00D9FF;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF0080;
 }

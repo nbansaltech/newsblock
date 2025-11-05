@@ -7,32 +7,35 @@ const Navbar = () => {
   const { account, connectWallet } = useContext(Web3Context);
 
   return (
-    <nav className="bg-surface p-4 flex justify-between items-center shadow-lg">
-      <Link to="/" className="text-2xl font-bold text-primary">
+    <nav className="bg-surface p-4 flex justify-between items-center shadow-lg border-b border-primary/20">
+      <Link to="/" className="text-2xl font-bold text-primary hover:text-secondary transition-colors">
         TrustLens
       </Link>
-      <div className="flex items-center">
+      <div className="flex items-center space-x-2">
+        <Link to="/about" className="mr-2 hover:text-primary transition-colors px-3 py-2 rounded">
+          About
+        </Link>
+        <Link to="/register-journalist" className="mr-2 hover:text-primary transition-colors px-3 py-2 rounded">
+          Register
+        </Link>
+        <Link to="/publish-article" className="mr-2 hover:text-primary transition-colors px-3 py-2 rounded">
+          Publish
+        </Link>
+        <Link to="/my-articles" className="mr-4 hover:text-primary transition-colors px-3 py-2 rounded">
+          My Articles
+        </Link>
         {account ? (
-          <span className="mr-4 text-secondary">
+          <span className="bg-primary/10 border border-primary/30 text-primary px-4 py-2 rounded font-mono text-sm">
             {account.substring(0, 6)}...{account.slice(-4)}
           </span>
         ) : (
           <button
             onClick={connectWallet}
-            className="mr-4 bg-primary hover:bg-secondary text-black font-bold py-2 px-4 rounded"
+            className="bg-primary hover:bg-secondary text-black font-bold py-2 px-6 rounded transition-colors"
           >
             Connect Wallet
           </button>
         )}
-        <Link to="/register-journalist" className="mr-4 hover:text-secondary">
-          Register
-        </Link>
-        <Link to="/publish-article" className="mr-4 hover:text-secondary">
-          Publish
-        </Link>
-        <Link to="/my-articles" className="hover:text-secondary">
-          My Articles
-        </Link>
       </div>
     </nav>
   );
