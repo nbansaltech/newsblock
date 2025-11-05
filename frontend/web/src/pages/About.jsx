@@ -8,7 +8,7 @@ const About = () => {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-            About TrustLens
+            About NewsBlock
           </h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             Revolutionizing journalism through blockchain verification and AI-powered truth detection
@@ -19,7 +19,7 @@ const About = () => {
         <div className="bg-surface rounded-lg p-8 mb-12 border border-primary/20">
           <h2 className="text-3xl font-bold text-primary mb-4">Our Mission</h2>
           <p className="text-gray-300 text-lg leading-relaxed">
-            In an era of misinformation and fake news, TrustLens stands as a beacon of truth. 
+            In an era of misinformation and fake news, NewsBlock stands as a beacon of truth. 
             We combine the immutability of blockchain technology with advanced machine learning 
             to create a trustless, decentralized platform for verified journalism. Our mission 
             is to restore faith in digital media by ensuring every piece of content can be 
@@ -55,7 +55,7 @@ const About = () => {
               <div className="text-4xl mb-4">📱</div>
               <h3 className="text-xl font-bold text-primary mb-3">Mobile Application</h3>
               <p className="text-gray-400">
-                Access TrustLens anywhere with our cross-platform mobile app. Verify news 
+                Access NewsBlock anywhere with our cross-platform mobile app. Verify news 
                 on the go, check article authenticity, and stay informed with blockchain-verified 
                 content right from your smartphone.
               </p>
@@ -163,7 +163,7 @@ const About = () => {
           <h2 className="text-3xl font-bold mb-4 text-white">Join the Revolution</h2>
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
             Be part of the movement to restore trust in journalism. Whether you're a 
-            journalist, reader, or developer, there's a place for you in the TrustLens ecosystem.
+            journalist, reader, or developer, there's a place for you in the NewsBlock ecosystem.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a 
