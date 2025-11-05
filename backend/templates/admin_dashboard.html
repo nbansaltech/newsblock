@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1b1f27;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #00aaff;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #2e323b;
+        }
+
+        th {
+            background-color: #2e323b;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        td {
+            background-color: #23272e;
+            color: #dcdcdc;
+        }
+
+        .attention-required {
+            background-color: #ff4d4d !important;
+            color: white;
+        }
+
+        button {
+            background-color: #00aaff;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #008ecc;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        input[type="hidden"] {
+            display: none;
+        }
+
+        /* Table Responsiveness */
+        @media (max-width: 768px) {
+            table, th, td {
+                display: block;
+                width: 100%;
+                margin:auto;
+            }
+            
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+            
+            tr {
+                margin-bottom: 10px;
+                display: block;
+                border-bottom: 1px solid #2e323b;
+            }
+            
+            tr:last-child {
+                border-bottom: none;
+            }
+            
+            th {
+                display: none;
+            }
+            
+            td:before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #00aaff;
+                display: block;
+                margin-bottom: 5px;
+            }
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Admin Dashboard</h1>
+    <div id="alert" style="display: none;" class="alert"></div>
+    <h2>All Sites</h2>
+    <table>
+        <tr>
+            <th>URL</th>
+            <th>Accuracy</th>
+            <th>Last Checked</th>
+        </tr>
+        {% for site in sites %}
+        <tr>
+            <td data-label="URL">{{ site.url }}</td>
+            <td data-label="Accuracy">{{ site.accuracy }}</td>
+            <td data-label="Last Checked">{{ site.last_checked }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Predictions</h2>
+    <table>
+        <tr>
+            <th>Model Type</th>
+            <th>Prediction</th>
+            <th>Probability</th>
+            <th>Timestamp</th>
+        </tr>
+        {% for prediction in predictions %}
+        <tr>
+            <td data-label="Model Type">{{ prediction.model_type }}</td>
+            <td data-label="Prediction">{{ prediction.prediction }}</td>
+            <td data-label="Probability">{{ "%.2f"|format(prediction.probability) }}</td>
+            <td data-label="Timestamp">{{ prediction.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Reported Sites</h2>
+    <table>
+        <tr>
+            <th>URL</th>
+            <th>Upvotes</th>
+            <th>Downvotes</th>
+            <th>Attention Required</th>
+            <th>Last Report</th>
+            <th>Action</th>
+        </tr>
+        {% for site in reported_sites %}
+        <tr id="site-row-{{ site.id }}" class="{{ 'attention-required' if site.attention_required else '' }}">
+            <td data-label="URL">{{ site.url }}</td>
+            <td data-label="Upvotes">{{ site.upvotes }}</td>
+            <td data-label="Downvotes">{{ site.downvotes }}</td>
+            <td data-label="Attention Required" id="attention-required-{{ site.id }}">{{ site.attention_required }}</td>
+            <td data-label="Last Report">{{ site.last_report }}</td>
+            <td data-label="Action">
+                <button onclick="markAttention({{ site.id }}, {{ 'true' if site.attention_required else 'false' }})">
+                    {{ "Mark as OK" if site.attention_required else "Mark for Attention" }}
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        function toBool(value) {
+            if (typeof value === 'string') {
+                return value.toLowerCase() === 'true';
+            }
+            return !!value; // This will convert any truthy/falsy value to true/false
+        }
+        
+        function markAttention(siteId, attentionRequired) {
+            attentionRequired = toBool(attentionRequired);  // Convert the string to actual boolean
+
+            fetch('/admin/mark_attention', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `site_id=${siteId}&attention_required=${!attentionRequired}`  // Toggle the value
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const row = document.getElementById(`site-row-${siteId}`);
+                    const attentionCell = document.getElementById(`attention-required-${siteId}`);
+                    const button = row.querySelector('button');
+
+                    // Update the UI
+                    if (!attentionRequired) {
+                        row.classList.add('attention-required');
+                        attentionCell.textContent = 'True';
+                        button.textContent = 'Mark as OK';
+                    } else {
+                        row.classList.remove('attention-required');
+                        attentionCell.textContent = 'False';
+                        button.textContent = 'Mark for Attention';
+                    }
+
+                    showAlert('Site updated successfully', 'success');
+                } else {
+                    showAlert('Failed to update site', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('An error occurred', 'danger');
+            });
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.getElementById('alert');
+            alertDiv.textContent = message;
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.display = 'block';
+
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

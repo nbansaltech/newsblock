@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "TrustLens - Fake News Detector",
+  "version": "1.0",
+  "description": "Detects potential fake news in web content using two different models.",
+  "host_permissions": [
+    "http://localhost:8000/"
+  ],
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

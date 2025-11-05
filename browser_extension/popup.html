@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrustLens - Fake News Detector</title>
+  <style>
+    body {
+      font-family: 'Orbitron', sans-serif;
+      /* Futuristic font */
+      background-color: #121212;
+      /* Dark background */
+      color: #00ffcc;
+      /* Neon cyan color */
+      padding: 20px;
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #00ffcc;
+      margin-bottom: 15px;
+      text-align: center;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+
+    h2 {
+      font-size: 18px;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    /* Form Elements */
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid #00ffcc;
+      border-radius: 6px;
+      background-color: transparent;
+      color: #00ffcc;
+      box-shadow: 0 0 10px #00ffcc, inset 0 0 5px #00ffcc;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #ff0077;
+      outline: none;
+      box-shadow: 0 0 12px #ff0077, inset 0 0 8px #ff0077;
+    }
+
+    button {
+      width: 100%;
+      background-color: #00ffcc;
+      color: rgb(0, 0, 0);
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px #00ffcc, inset 0 0 5px #00ffcc;
+    }
+
+    button:hover {
+      background-color: #ff0077;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #ff0077, inset 0 0 8px #ff0077;
+    }
+
+    #logoutBtn {
+      background-color: #ff0000;
+    }
+
+    #logoutBtn:hover {
+      background-color: #e60000;
+    }
+
+    #loading {
+      display: none;
+      text-align: center;
+    }
+
+    #loading p {
+      font-size: 16px;
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+
+    /* Results text */
+    #result {
+      background-color: #1c1c1c;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      color: #00ffcc;
+      box-shadow: 0 0 10px #00ffcc;
+      text-align: center;
+    }
+
+    /* Hide manual inputs initially */
+    #manualInputs {
+      display: none;
+    }
+
+    /* Modals */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background-color: #1c1c1c;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 15px #00ffcc;
+      animation: slideIn 0.4s ease;
+    }
+
+    .close-modal {
+      color: #00ffcc;
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .close-modal:hover {
+      color: #ff0077;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-30px);
+      }
+
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 400px) {
+      body {
+        width: 350px;
+      }
+    }
+
+    #captchaContainer {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #1c1c1c;
+      border-radius: 6px;
+      box-shadow: 0 0 10px #00ffcc;
+    }
+
+    #captchaQuestion {
+      color: #00ffcc;
+      margin-bottom: 5px;
+    }
+
+    #captchaAnswer {
+      width: calc(100% - 24px);
+      margin-bottom: 5px;
+    }
+
+    #submitCaptcha {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>TrustLens - Fake News Detector</h1>
+  <div style="width: 280px; margin: auto; gap: 10px; display: flex; flex-direction: column; ">
+
+    <div id="loginForm" class="auth-form">
+      <h2 style="color: #ff0077;">Login as existing user!!</h2>
+      <form>
+        <input type="text" id="loginUsername" placeholder="Username" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    <div id="registerForm" class="auth-form">
+      <h2 style="color: #ff0077;">Register as a new user??</h2>
+      <form>
+        <input type="text" id="registerUsername" placeholder="Username" required>
+        <input type="password" id="registerPassword" placeholder="Password" required>
+        <button type="submit">Register</button>
+      </form>
+    </div>
+
+
+    <button id="upvoteBtn">Upvote This Site</button>
+    <button id="downvoteBtn">Downvote This Site</button>
+    <button id="autoAnalyzeBtn">Auto Analyze</button>
+    <div id="captchaContainer">
+      <p id="captchaQuestion"></p>
+      <input type="number" id="captchaAnswer" placeholder="Enter your answer">
+      <button id="submitCaptcha">Submit CAPTCHA</button>
+    </div>
+    <h2>Upload Image</h2>
+    <input type="file" id="imageUpload">
+    <button id="analyzeButton">Analyze Image</button>
+
+    <label>
+      <input type="checkbox" id="customCheckbox"> Custom Input
+    </label>
+
+    <div id="manualInputs">
+      <h2>Please share the news you want to fact check.</h2>
+      <input id="title" type="text" placeholder="Title">
+      <textarea id="text" placeholder="Text content"></textarea>
+      <input id="subject" type="text" placeholder="Subject">
+      <input id="date" type="date">
+      <button id="analyzeBtn">Analyze Custom Data</button>
+    </div>
+    <div id="loading" style="display: none; text-align: center;">
+      <p>Loading, please wait...</p>
+    </div>
+
+    <div id="result"></div>
+    <div id="result2"></div>
+
+    <button id="logoutBtn" style="display: none;">Logout</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
