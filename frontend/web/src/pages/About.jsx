@@ -163,7 +163,7 @@ const About = () => {
           <h2 className="text-3xl font-bold mb-4 text-white">Join the Revolution</h2>
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
             Be part of the movement to restore trust in journalism. Whether you're a 
-            journalist, reader, or developer, there's a place for you in the TrustLens ecosystem.
+            journalist, reader, or developer, there's a place for you in the NewsBlock ecosystem.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a 
