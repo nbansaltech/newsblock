@@ -9,11 +9,14 @@ const Navbar = () => {
   return (
     <nav className="bg-surface p-4 flex justify-between items-center shadow-lg border-b border-primary/20">
       <Link to="/" className="text-2xl font-bold text-primary hover:text-secondary transition-colors">
-        NewsBlock
+        TrustLens
       </Link>
       <div className="flex items-center space-x-2">
         <Link to="/about" className="mr-2 hover:text-primary transition-colors px-3 py-2 rounded">
           About
+        </Link>
+        <Link to="/fact-checker" className="mr-2 hover:text-primary transition-colors px-3 py-2 rounded">
+          Fact Checker
         </Link>
         <Link to="/register-journalist" className="mr-2 hover:text-primary transition-colors px-3 py-2 rounded">
           Register

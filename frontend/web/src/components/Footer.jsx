@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* About Section */}
           <div>
-            <h3 className="text-xl font-bold text-primary mb-4">NewsBlock</h3>
+            <h3 className="text-xl font-bold text-primary mb-4">TrustLens</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
               Empowering truth in the digital age through blockchain-verified journalism, 
               AI-powered fake news detection, and decentralized content verification.
@@ -55,6 +55,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/fact-checker" className="text-gray-400 hover:text-primary transition-colors">
+                  Fact Checker
+                </Link>
+              </li>
+              <li>
                 <Link to="/register-journalist" className="text-gray-400 hover:text-primary transition-colors">
                   Register as Journalist
                 </Link>
@@ -77,7 +82,7 @@ const Footer = () => {
             </p>
           </div>
           <div className="text-sm text-gray-400">
-            <p>&copy; {new Date().getFullYear()} NewsBlock. Decentralizing Truth.</p>
+            <p>&copy; {new Date().getFullYear()} TrustLens. Decentralizing Truth.</p>
           </div>
         </div>
 
